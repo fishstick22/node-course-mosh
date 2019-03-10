@@ -8,7 +8,8 @@ const logger = require('./logger');
 const express = require('express');
 const app = express();
 
-console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
+app.set('view engine', 'pug');
+app.set('views', './views');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -37,7 +38,12 @@ const courses = [
 ];
 
 app.get('/', (req, res) => {
-    res.send('Hello loser...');
+//    res.send('Hello loser...');
+    res.render('index', 
+        { title: `${config.get('name')}`, 
+          message: 'Hello loser...' 
+        }
+    );
 }); 
 
 app.get('/api/courses', (req, res) => {
