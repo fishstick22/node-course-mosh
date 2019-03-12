@@ -1,0 +1,3 @@
+msiexec.exe /q /i mongodb-win32-x86_64-2008plus-ssl-3.6.5-signed.msi ^
+        ADDLOCAL="ImportExportTools"
+mongoimport --db mongo-exercises --collection courses --drop --file exercise-data.json --jsonArray
