@@ -50,4 +50,57 @@ async function getCourses() {
     console.log('Courses', courses)
 }
 
-getCourses();
+// getCourses();
+
+async function updateCourseQueryFirst(id) {
+    // Approach: Query first
+    // findById()
+    // Modify its properties
+    // save()
+    const course = await Course.findById(id);
+    if (!course) return;
+
+    // course.isPublished = true;
+    // course.author = 'Another Author';
+
+    course.set({
+        isPublished: true,
+        author: 'Another Author'
+    });
+
+    const result = await course.save();
+    console.log(result);
+}
+//updateCourseQueryFirst("5c86f353917b3f18c83b21ce");
+
+async function updateCourseUpdateFirst(id) {
+    // Approach: Update first
+    // Update directly
+    // Optionally: get the updated document
+
+    // const result = await Course.update( { _id: id }, {
+    const course = await Course.findByIdAndUpdate( id, {
+        $set: {
+            author: 'Jason',
+            isPublished: true
+        }
+    }, { new: true });
+
+//    console.log(result);
+    console.log(course);
+
+
+}
+
+//updateCourseUpdateFirst("5c86f353917b3f18c83b21ce");
+
+async function removeCourset(id) {
+    // const result = await Course.deleteOne({ _id: id });
+    const course = await Course.findByIdAndRemove(id);
+
+    // console.log(result);
+    console.log(course);
+
+}
+
+removeCourset("5c86f353917b3f18c83b21ce");
