@@ -1,5 +1,5 @@
-const Joi = require('joi');
-const mongoose = require('mongoose');
+const {Genre, validate} = require('../models/genre');
+// const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 
@@ -8,15 +8,6 @@ const router = express.Router();
 //     { id: 2, name: 'Horror' },  
 //     { id: 3, name: 'Romance' },  
 //   ];
-
-const Genre = mongoose.model('Genre', new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    minlength: 5,
-    maxlength: 50
-  }
-}));
 
 router.get('/', async (req, res) => {
   const genres = await Genre.find().sort('name').catch((error) => {
@@ -30,7 +21,7 @@ router.post('/', async (req, res) => {
   // if (error) return res.status(400).send(error.details[0].message);
 
   try {
-    await validateGenre(req.body);
+    await validate(req.body);
   } catch(error) {
     console.log(error.details[0].message);
     return res.status(400).send(error.details[0].message);
@@ -50,20 +41,39 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
-    await validateGenre(req.body);
+    await validate(req.body);
   } catch(error) {
     console.log(error.details[0].message);
     return res.status(400).send(error.details[0].message);
   }
 
   try {
-    const genre = await Genre.findByIdAndUpdate(req.params.id, { name: req.body.name }, {
-      new: true
-    });
+    //(node:9352) DeprecationWarning: collection.findAndModify is deprecated. Use findOneAndUpdate, findOneAndReplace or findOneAndDelete instead.
+    const id = req.params.id
+    console.log('Put', id)
+    // const genre = await Genre.findByIdAndUpdate(req.params.id, { name: req.body.name }, {
+    //   new: true
+    // });
     // if (!genre) return res.status(404).send('The genre with the given ID was not found.');
-    res.send(genre);
+    // res.send(genre);
+    await Genre.findOneAndUpdate({ _id: id }, {$set:{ name: req.body.name }}, { new: true })
+      .exec((err, genre) => {
+        if(err) {
+          console.log(err.message);
+          if (err.name === 'CastError' && err.kind === 'ObjectId') {
+            return res.status(404).json({success: false, msg: 'Genere id not found'});
+          }
+          return res.json({success: false, msg: 'Cannot update Genre'});
+        }
+        if (!genre) {
+          return res.status(404).json({success: false, msg: 'Genere not updated'});
+        }
+        console.log('Updated', id);
+        res.send(genre);
+      });
   } catch (error) {
     res.status(500).send(error);
+    //return res.status(404).send('The genre with the given ID was not found.');
   }
 
 });
@@ -72,14 +82,11 @@ router.delete('/:id', async (req, res) => {
   try {
     const id = req.params.id;
     await Genre.findOneAndDelete({_id: id})
-      .exec(function(err, item) {
+      .exec(function(err, genre) {
         if (err) {
-          return res.json({success: false, msg: 'Cannot remove Genre'});
-      }       
-      if (!item) {
-          return res.status(404).json({success: false, msg: 'Genere id not found'});
-      }  
-      console.log('Deleted', id)
+          return res.status(404).json({success: false, msg: 'Genere id not found'});      
+      } 
+      console.log('Deleted', id);
       res.json({success: true, msg: 'Genere deleted.'});
       
     });
@@ -92,21 +99,15 @@ router.delete('/:id', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  const genre = await Genre.findById(req.params.id).catch((error) => {
-    res.status(500).send(error);
-  });
+  try {
+    const id = req.params.id;
+    const genre = await Genre.findById(id);
+    res.send(genre);
+  } catch (error) {
+    console.log(error.message);
+    return res.status(404).send('The genre with the given ID was not found.');
 
-  if (!genre) return res.status(404).send('The genre with the given ID was not found.');
-
-  res.send(genre);
+  }
 });
-
-function validateGenre(genre) {
-  const schema = {
-    name: Joi.string().min(3).required()
-  };
-
-  return Joi.validate(genre, schema);
-}
 
 module.exports = router;
