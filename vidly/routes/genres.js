@@ -29,9 +29,9 @@ router.post('/', async (req, res) => {
 
   try {
     console.log('Passed validation');
-    let genre = new Genre({ name: req.body.name });
+    const genre = new Genre({ name: req.body.name });
 
-    genre = await genre.save();
+    await genre.save();
     res.send(genre);
   } catch(error) {
     console.log('caught error in save:', error);
