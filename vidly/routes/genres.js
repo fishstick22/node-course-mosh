@@ -1,3 +1,5 @@
+const auth = require('../middleware/auth');
+const admin = require('../middleware/admin');
 const {Genre, validate} = require('../models/genre');
 // const mongoose = require('mongoose');
 const express = require('express');
@@ -9,7 +11,7 @@ const router = express.Router();
 //     { id: 3, name: 'Romance' },  
 //   ];
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   const genres = await Genre.find().sort('name').catch((error) => {
     res.status(500).send(error.details[0].message);
   });
@@ -78,7 +80,7 @@ router.put('/:id', async (req, res) => {
 
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', [auth, admin], async (req, res) => {
   try {
     const id = req.params.id;
     await Genre.findOneAndDelete({_id: id})

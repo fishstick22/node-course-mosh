@@ -1,3 +1,4 @@
+const config = require('config');
 const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi);
 const mongoose = require('mongoose');
@@ -10,6 +11,10 @@ const users = require('./routes/auth');
 const express = require('express');
 const app = express();
 
+if (!config.get('jwtPrivateKey')) {
+  console.error('FATAL ERROR: jwtPrivateKey is not defined.');
+  process.exit(1);
+}
 // https://stackoverflow.com/questions/52572852/deprecationwarning-collection-findandmodify-is-deprecated-use-findoneandupdate
 
 // Make Mongoose use `findOneAndUpdate()`. Note that this option is `true`
