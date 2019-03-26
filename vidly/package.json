@@ -13,11 +13,14 @@
     "bcrypt": "^3.0.5",
     "config": "^3.0.1",
     "express": "^4.16.4",
+    "express-async-errors": "^3.1.1",
     "fawn": "^2.1.5",
     "joi": "^14.3.1",
     "joi-objectid": "^2.0.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.11",
-    "mongoose": "^5.4.19"
+    "mongoose": "^5.4.19",
+    "winston": "^2.4.0",
+    "winston-mongodb": "^3.0.0"
   }
 }
