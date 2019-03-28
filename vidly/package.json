@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watchAll"
+    "test": "jest --watchAll --verbose --runInBand"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +24,7 @@
     "winston-mongodb": "^3.0.0"
   },
   "devDependencies": {
-    "jest": "^24.5.0"
+    "jest": "^24.5.0",
+    "supertest": "^4.0.2"
   }
 }

@@ -1,5 +1,5 @@
 require('express-async-errors');
-require('winston-mongodb');
+// require('winston-mongodb');
 const winston = require('winston');
 
 module.exports = function() {
@@ -21,10 +21,10 @@ module.exports = function() {
   });
 
   winston.add(winston.transports.File, { filename: "logfile.log" });
-  winston.add(winston.transports.MongoDB, {
-    db: "mongodb://localhost/vidly",
-    level: "error"
-  });
+  // winston.add(winston.transports.MongoDB, {
+  //   db: "mongodb://localhost/vidly",
+  //   level: "error"
+  // });
 
   //throw new Error('Something failed during startup!!');
   // const p = Promise.reject(new Error('Something failed miserably!'))
