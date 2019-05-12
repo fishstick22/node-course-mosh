@@ -403,3 +403,9 @@
 {"message":"moment is not defined","stack":"ReferenceError: moment is not defined\n    at model.moment (C:\\Users\\jburkholder\\node\\node-course-mosh\\vidly\\models\\rental.js:68:22)\n    at Object.<anonymous>.router.post (C:\\Users\\jburkholder\\node\\node-course-mosh\\vidly\\routes\\returns.js:17:5)\n    at <anonymous>","level":"error","timestamp":"2019-03-29T00:38:27.871Z"}
 {"level":"info","message":"Listening on port 3000...","timestamp":"2019-03-29T00:38:36.514Z"}
 {"level":"info","message":"Connected to MongoDB @ mongodb://localhost/vidly_tests...","timestamp":"2019-03-29T00:38:37.542Z"}
+{"level":"info","message":"Listening on port 3000...","timestamp":"2019-03-29T00:51:18.641Z"}
+{"level":"info","message":"Connected to MongoDB @ mongodb://localhost/vidly_tests...","timestamp":"2019-03-29T00:51:19.699Z"}
+{"level":"info","message":"Listening on port 3000...","timestamp":"2019-03-29T00:51:21.626Z"}
+{"level":"info","message":"Connected to MongoDB @ mongodb://localhost/vidly_tests...","timestamp":"2019-03-29T00:51:22.658Z"}
+{"level":"info","message":"Listening on port 3000...","timestamp":"2019-03-29T00:51:24.886Z"}
+{"level":"info","message":"Connected to MongoDB @ mongodb://localhost/vidly_tests...","timestamp":"2019-03-29T00:51:26.026Z"}
